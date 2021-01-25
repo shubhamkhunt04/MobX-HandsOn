@@ -2,6 +2,7 @@ import { types } from "mobx-state-tree";
 
 const Todo = types
   .model({
+    id: types.optional(types.integer, 1),
     name: types.optional(types.string, ""),
     done: types.optional(types.boolean, false),
   })

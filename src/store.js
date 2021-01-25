@@ -7,7 +7,7 @@ import User from "./models/UserModel";
 const rootStore = types
   .model({
     users: types.map(User),
-    todos: types.map(Todo),
+    todos: types.array(Todo),
   })
   .views((self) => ({
     get pendingCount() {
@@ -22,19 +22,30 @@ const rootStore = types
   }))
   .actions((self) => {
     function addTodo(id, name) {
-      self.todos.set(id, Todo.create({ name }));
+      self.todos.push({
+        id,
+        name,
+      });
     }
-    return { addTodo };
+    function deleteTodo(id) {
+      console.log("deltetodo", id);
+      //   console.log(store.todos);
+      //   self.todos.forEach((todo) => console.log("loop todo", todo));
+      store.todos = self.todos.filter((todo) => todo.id !== id);
+      //   console.log(values(self.todos.filter((todo) => todo.name !== name)));
+    }
+    return { addTodo, deleteTodo };
   });
 
 const store = rootStore.create({
   users: {},
-  todos: {
-    1: {
+  todos: [
+    {
+      id: 1,
       name: "shubham",
       done: true,
     },
-  },
+  ],
 });
 
 export default store;

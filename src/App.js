@@ -6,7 +6,7 @@ import { values } from "mobx";
 import TodoView from "./components/TodoView";
 import TodoCounterView from "./components/TodoCounterView";
 
-const randomId = () => Math.floor(Math.random() * 1000).toString(36);
+const randomId = () => Math.floor(Math.random() * 1000);
 
 const App = observer((props) => {
   return (
@@ -22,7 +22,16 @@ const App = observer((props) => {
         Add Task
       </button>
       {values(props.store.todos).map((todo) => (
-        <TodoView todo={todo} key={randomId()} />
+        <div key={randomId()}>
+          <TodoView
+            todo={todo}
+
+            // onClick={() => props.store.deleteTodo(todo.id)}
+          />
+          <button onClick={() => props.store.deleteTodo(todo.id)}>
+            Delete
+          </button>
+        </div>
       ))}
       <TodoCounterView store={props.store} />
     </div>
